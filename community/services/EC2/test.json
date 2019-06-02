@@ -9,7 +9,7 @@
         "EnableDnsSupport": false,
         "EnableDnsHostnames": false,
         "InstanceTenancy": "default",
-        "Tags": [ { "Key": "Name", "Value": "vpctester_new" } ]
+        "Tags": [ { "Key": "Name", "Value": "vpctester_new_1" } ]
       }
     },
     "sgtester": {
