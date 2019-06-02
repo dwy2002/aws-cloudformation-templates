@@ -5,11 +5,11 @@
     "vpctester": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": "172.16.0.0/23",
+        "CidrBlock": "172.0.0.0/23",
         "EnableDnsSupport": false,
         "EnableDnsHostnames": false,
         "InstanceTenancy": "default",
-        "Tags": [ { "Key": "Name", "Value": "vpctester" } ]
+        "Tags": [ { "Key": "Name", "Value": "vpctester_new" } ]
       }
     },
     "sgtester": {
