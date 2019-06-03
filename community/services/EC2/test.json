@@ -7,26 +7,36 @@
       "Default": "vpc-0155ce7e3a51e3d1e",
       "Description": "VPC where the Security Group will belong"
     },
-    "Name": {
+    "GitHubEESGName": {
       "Type": "String",
       "Default": "SG_Github_EE",
       "Description": "Name Tag of the Security Group"
     },
-    "Description": {
+    "GitHubEESGDescription": {
       "Type": "String",
       "Default": "SG_Github_EE",
       "Description": "Description Tag of the Security Group"
-    }
+    },
+    "P4SGName": {
+      "Type": "String",
+      "Default": "SG_P4_Production",
+      "Description": "Description Tag of the Security Group"
+    },
+    "P4SGDescription": {
+      "Type": "String",
+      "Default": "SG_P4_Production for the P4 production server ",
+      "Description": "Name Tag of the Security Group"
+    },
   },
   "Resources": {
     "GitHubEESG": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": {
-          "Ref": "Description"
+          "Ref": "GitHubEESGDescription"
         },
         "GroupName": {
-          "Ref": "Name"
+          "Ref": "GitHubEESGName"
         },
         "VpcId": {
           "Ref": "VPC"
@@ -101,14 +111,10 @@
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": {
-          "Type": "String",
-          "Default": "SG_P4_Production for the P4 production server ",
-          "Description": "Description Tag of the Security Group"
+          "Ref": "P4SGDescription"
         },
         "GroupName": {
-          "Type": "String",
-          "Default": "SG_P4_Production",
-          "Description": "Name Tag of the Security Group"
+          "Ref": "P4SGName"
         },
         "VpcId": {
           "Ref": "VPC"
