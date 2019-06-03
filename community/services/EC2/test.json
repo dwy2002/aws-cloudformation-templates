@@ -5,7 +5,7 @@
     "VPC": {
       "Type": "AWS::EC2::VPC::Id",
       "Default": "vpc-0155ce7e3a51e3d1e",
-      "Description": "VPC where the Security Group will belong"
+      "Description": "VPC where the Security Group will belong modify"
     },
     "GitHubEESGName": {
       "Type": "String",
