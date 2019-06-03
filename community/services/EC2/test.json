@@ -1,35 +1,109 @@
 {
-  "Description": "Create a VPC with a SG which references itself",
-  "AWSTemplateFormatVersion": "2010-09-09",
-  "Resources": {
-    "vpctester": {
-      "Type": "AWS::EC2::VPC",
-      "Properties": {
-        "CidrBlock": "172.0.0.0/23",
-        "EnableDnsSupport": false,
-        "EnableDnsHostnames": false,
-        "InstanceTenancy": "default",
-        "Tags": [ { "Key": "Name", "Value": "vpctester_new_1" } ]
-      }
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "GitHub EE Server Security Group",
+    "Parameters": {
+        "VPC": {
+            "Type": "AWS::EC2::VPC::Id",
+            "Default": "vpc-0ec61b137b273e90a",
+            "Description": "VPC where the Security Group will belong"
+        },
+        "Name": {
+            "Type": "String",
+            "Default": "SG_Github_EE",
+            "Description": "Name Tag of the Security Group"
+        },
+        "Description": {
+            "Type": "String",
+            "Default": "SG_Github_EE",
+            "Description": "Description Tag of the Security Group"
+        }
     },
-    "sgtester": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "DependsOn": "vpctester",
-      "Properties": {
-        "GroupDescription": "vpc tester sg",
-        "VpcId": { "Ref": "vpctester" }
-      }
+    "Resources": {
+        "GitHubEESG": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": {
+                    "Ref": "Description"
+                },
+                "GroupName": {
+                    "Ref": "Name"
+                },
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "udp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "161",
+                        "ToPort": "161",
+                        "Description": "SNMP Required for network monitoring protocol operation"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "Description": "SSH Git over SSH access. Clone, fetch, and push operations to public/private repositories supported."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "Description": "HTTP Web application access. All requests are redirected to the HTTPS port when SSL is enabled."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "122",
+                        "ToPort": "122",
+                        "Description": "SSH Instance shell access. The default SSH port (22) is dedicated to application git+ssh network traffic."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "443",
+                        "ToPort": "443"
+                    },
+                    {
+                        "IpProtocol": "UDP",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "1194",
+                        "ToPort": "1194",
+                        "Description": "VPN Secure replication network tunnel in high availability configuration."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "8080",
+                        "ToPort": "8080",
+                        "Description": "HTTP Plain-text web based Management Console. Not required unless SSL is disabled manually."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "8443",
+                        "ToPort": "8443",
+                        "Description": "HTTPS Secure web based Management Console. Required for basic installation and configuration."
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "10.0.0.0/8",
+                        "FromPort": "9418",
+                        "ToPort": "9418",
+                        "Description": "Git Simple Git protocol port. Clone and fetch operations to public repositories only. Unencrypted network communication."
+                    }
+                ]
+            }
+        }
     },
-    "sgtesteringress": {
-      "Type": "AWS::EC2::SecurityGroupIngress",
-      "DependsOn": "sgtester",
-      "Properties": {
-        "GroupId": { "Ref": "sgtester" },
-        "IpProtocol": "tcp",
-        "FromPort": "0",
-        "ToPort": "65535",
-        "SourceSecurityGroupId": { "Ref": "sgtester" }
-      }
+    "Outputs": {
+        "SecurityGroupID": {
+            "Description": "Security Group ID",
+            "Value": {
+                "Ref": "GitHubEESG"
+            }
+        }
     }
-  }
 }
