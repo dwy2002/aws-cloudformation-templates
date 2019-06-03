@@ -14,7 +14,7 @@
         },
         "Namep4": {
             "Type": "String",
-            "Default": "P4_EE",
+            "Default": "P4_EE_V1",
             "Description": "Name Tag of the Security Group"
         },
         "Description": {
