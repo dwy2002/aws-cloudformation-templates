@@ -12,7 +12,7 @@
             "Default": "SG_Github_EE",
             "Description": "Name Tag of the Security Group"
         },
-        "Name_p4": {
+        "Namep4": {
             "Type": "String",
             "Default": "P4_EE",
             "Description": "Name Tag of the Security Group"
@@ -109,7 +109,7 @@
             "Ref": "Description"
         },
         "GroupName": {
-            "Ref": "Name_P4"
+            "Ref": "Namep4"
         },
         "VpcId": {
             "Ref": "VPC"
