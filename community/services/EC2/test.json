@@ -4,12 +4,17 @@
     "Parameters": {
         "VPC": {
             "Type": "AWS::EC2::VPC::Id",
-            "Default": "vpc-0ec61b137b273e90a",
+            "Default": "vpc-0155ce7e3a51e3d1e",
             "Description": "VPC where the Security Group will belong"
         },
         "Name": {
             "Type": "String",
             "Default": "SG_Github_EE",
+            "Description": "Name Tag of the Security Group"
+        },
+        "Name_p4": {
+            "Type": "String",
+            "Default": "P4_EE",
             "Description": "Name Tag of the Security Group"
         },
         "Description": {
@@ -96,7 +101,30 @@
                     }
                 ]
             }
-        }
+        },
+        "P4SG": {
+    "Type": "AWS::EC2::SecurityGroup",
+    "Properties": {
+        "GroupDescription": {
+            "Ref": "Description"
+        },
+        "GroupName": {
+            "Ref": "Name_P4"
+        },
+        "VpcId": {
+            "Ref": "VPC"
+        },
+        "SecurityGroupIngress": [
+            {
+                "IpProtocol": "udp",
+                "CidrIp": "10.0.0.0/8",
+                "FromPort": "161",
+                "ToPort": "161",
+                "Description": "SNMP Required for network monitoring protocol operation"
+            }
+        ]
+    }
+}
     },
     "Outputs": {
         "SecurityGroupID": {
